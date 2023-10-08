@@ -3,6 +3,7 @@ import 'package:art_of_event/Core/Shared%20Preferences/shared_preferences.dart';
 import 'package:art_of_event/Features/Main%20Screen/Presentation/main_screen.dart';
 import 'package:art_of_event/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           home: const MainScreen(),
+          builder: EasyLoading.init(),
+
         );
       }
     );
