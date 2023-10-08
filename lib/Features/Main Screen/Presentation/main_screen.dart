@@ -1,8 +1,10 @@
 import 'package:art_of_event/Core/Cubit/Main%20Screen/main_screen_cubit.dart';
-import 'package:art_of_event/Core/Utills/app_svg.dart';
+import 'package:art_of_event/Core/Style/colors.dart';
 import 'package:art_of_event/Features/Home%20Screen/Presentation/home_screen.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -12,6 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool visible = true;
   MainScreenCubit cubit = MainScreenCubit();
 
   int index = 0;
@@ -35,51 +38,45 @@ class _MainScreenState extends State<MainScreen> {
   child: BlocBuilder<MainScreenCubit, MainScreenState>(
   builder: (context, state) {
     return SafeArea(child: Scaffold(body: cubit.screens[cubit.index],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor:  Colors.grey.shade800,
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.white,
+        bottomNavigationBar: DotNavigationBar(
+          marginR: EdgeInsets.symmetric(horizontal: 25.sp,vertical: 1.sp),
+          paddingR: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 1.sp),
+          enableFloatingNavBar: true,
+          backgroundColor: AppColors.primary,
+          currentIndex: cubit.index,
+          dotIndicatorColor: Colors.white,
+          unselectedItemColor: Colors.grey[500],
+          splashBorderRadius: 50,
+          // enableFloatingNavBar: false,
           onTap: (value) {
             cubit.index = value;
             setState(() {});
           },
-          currentIndex: cubit.index,
           items: [
-            BottomNavigationBarItem(
-                label: 'Home',
-                icon: AppSVG(
-                  assetName: 'home',
-                  color: cubit.index == 0
-                      ? Colors.black
-                      : Colors.white,
-                )),
-            BottomNavigationBarItem(
-                label: 'category',
-                icon: AppSVG(
-                  assetName: 'category',
-                  color: cubit.index == 1
-                      ? Colors.black : Colors.white,
-                )),
-            BottomNavigationBarItem(
-                label: 'scanner',
-                icon: AppSVG(
-                  assetName: 'scanner',
-                  color: cubit.index == 2
-                      ? Colors.black : Colors.white,
-                )),
-            BottomNavigationBarItem(
-                label: 'cart',
-                icon: AppSVG(
-                  assetName: 'cart',
-                  color: cubit.index == 3
-                      ? Colors.black : Colors.white,
-                )),
+            DotNavigationBarItem(
+              icon: Icon(Icons.home,size: 20.sp),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            DotNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            DotNavigationBarItem(
+              icon: Icon(Icons.search),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            DotNavigationBarItem(
+              icon: Icon(Icons.person),
+              selectedColor: Color(0xff73544C),
+            ),
           ],
-        ),));
-  },
-),
-);
+        ),
+    )
+    );
+    }));
   }
 }
 
