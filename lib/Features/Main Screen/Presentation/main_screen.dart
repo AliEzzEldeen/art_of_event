@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           marginR: EdgeInsets.symmetric(horizontal: 25.sp,vertical: 1.sp),
           paddingR: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 1.sp),
           enableFloatingNavBar: true,
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.primaryLight,
           currentIndex: cubit.index,
           dotIndicatorColor: Colors.white,
           unselectedItemColor: Colors.grey[500],
@@ -55,22 +55,22 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             DotNavigationBarItem(
               icon: Icon(Icons.home,size: 20.sp),
-              selectedColor: Color(0xff73544C),
+              selectedColor: const Color(0xff73544C),
             ),
 
             DotNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              selectedColor: Color(0xff73544C),
+              icon:  Icon(Icons.shopping_cart,size: 20.sp,),
+              selectedColor: const Color(0xff73544C),
             ),
 
             DotNavigationBarItem(
-              icon: Icon(Icons.search),
-              selectedColor: Color(0xff73544C),
+              icon:  Icon(Icons.shopping_bag,size: 20.sp,),
+              selectedColor: const Color(0xff73544C),
             ),
 
             DotNavigationBarItem(
-              icon: Icon(Icons.person),
-              selectedColor: Color(0xff73544C),
+              icon:  Icon(Icons.person,size: 20.sp,),
+              selectedColor: const Color(0xff73544C),
             ),
           ],
         ),
