@@ -2,6 +2,7 @@ import 'package:art_of_event/Core/Style/colors.dart';
 import 'package:art_of_event/Core/Utills/app_svg.dart';
 import 'package:art_of_event/Core/Widgets/text_form_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -14,6 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
+  CarouselController carouselController = CarouselController();
+  int currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 150.h,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 22.sp, horizontal: 20.sp),
+            padding: EdgeInsets.symmetric(vertical: 14.sp, horizontal: 14.sp),
             child: Scaffold(
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.sp, vertical: 10.sp),
                         decoration: BoxDecoration(
-                            color: AppColors.container,
+                            color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(24.sp)),
                         child: AppSVG(
                             assetName: 'bell',
@@ -82,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.sp, vertical: 10.sp),
                         decoration: BoxDecoration(
-                            color: AppColors.container,
+                            color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(24.sp)),
                         child: AppSVG(
                             assetName: 'heart',
@@ -94,18 +98,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  AppTextField(
-                    hint: 'Search',
-                    keyboardType: TextInputType.text,
-                    controller: searchController,
-                    isPassword: false,
-                    textInputAction: TextInputAction.search,
-                    textInputType: TextInputType.text,
-                    prefixIcon: Icon(
-                      Icons.search,
-                      size: 20.sp,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(
+                          hint: 'Search here',
+                          keyboardType: TextInputType.text,
+                          textColor: AppColors.primary,
+                          controller: searchController,
+                          isPassword: false,
+                          textInputAction: TextInputAction.search,
+                          textInputType: TextInputType.text,
+                          prefixIcon: Icon(
+                            Icons.search,
+                            size: 20.sp,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 4.w),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadiusDirectional.circular(14.sp),
+                            color: AppColors.primary),
+                        child: AppSVG(assetName: "heart", height: 3.h),
+                      )
+                    ],
                   ),
+                  SizedBox(height: 1.h,),
                   Text(
                     'Special offers',
                     style: TextStyle(
@@ -116,36 +140,53 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1.h),
-                    child: CarouselSlider.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index, realIndex) => SizedBox(
-                        width: 73.w,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHh6nDtbuBDnVLnOspojm5e5PfyM1bS1FM5w',
-                              fit: BoxFit.fill),
+                    child: Column(
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: 3,
+                          itemBuilder: (context, index, realIndex) => SizedBox(
+                            width: 73.w,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHh6nDtbuBDnVLnOspojm5e5PfyM1bS1FM5w',
+                                  fit: BoxFit.fill),
+                            ),
+                          ),
+                          carouselController: carouselController,
+                          options: CarouselOptions(
+
+                            animateToClosest: true,
+                            pageSnapping: true,
+                            padEnds: true,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            enlargeFactor: 0.3,
+                            scrollDirection: Axis.horizontal,
+                            height: 18.h,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
+
+                          ),
                         ),
-                      ),
-                      options: CarouselOptions(
-                        animateToClosest: true,
-                        pageSnapping: true,
-                        padEnds: true,
-                        aspectRatio: 16 / 9,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: true,
-                        reverse: false,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                        enlargeFactor: 0.3,
-                        scrollDirection: Axis.horizontal,
-                        height: 18.h,
-                      ),
+                        DotsIndicator(
+                          dotsCount: 3,
+                          position: currentIndex,
+                        )
+
+                      ],
                     ),
                   ),
                   Text(
@@ -224,17 +265,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: AlignmentDirectional.topEnd,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5.sp,horizontal: 15.sp),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5.sp, horizontal: 15.sp),
                                   height: 15.h,
                                   width: 50.sp,
-
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade200,
                                     borderRadius: BorderRadius.circular(
                                       15.sp,
                                     ),
                                   ),
-
                                   child: Image.network(
                                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX-62j9_rn7jQl3qcyhzbOokeTQmtxEH1k6A'),
                                 ),
@@ -282,7 +322,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-
                         ],
                       ),
                     ),

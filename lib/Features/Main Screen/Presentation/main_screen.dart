@@ -37,12 +37,15 @@ class _MainScreenState extends State<MainScreen> {
   create: (context) => cubit,
   child: BlocBuilder<MainScreenCubit, MainScreenState>(
   builder: (context, state) {
-    return SafeArea(child: Scaffold(body: cubit.screens[cubit.index],
+    return SafeArea(child: Scaffold(
+      extendBody: true,
+      body: cubit.screens[cubit.index],
         bottomNavigationBar: DotNavigationBar(
+          enablePaddingAnimation: true,
           marginR: EdgeInsets.symmetric(horizontal: 25.sp,vertical: 1.sp),
           paddingR: EdgeInsets.symmetric(horizontal: 10.sp,vertical: 1.sp),
           enableFloatingNavBar: true,
-          backgroundColor: AppColors.primaryLight,
+          backgroundColor: AppColors.primary,
           currentIndex: cubit.index,
           dotIndicatorColor: Colors.white,
           unselectedItemColor: Colors.grey[500],
@@ -55,22 +58,22 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             DotNavigationBarItem(
               icon: Icon(Icons.home,size: 20.sp),
-              selectedColor: const Color(0xff73544C),
+              selectedColor: const Color(0xff8e5765),
             ),
 
             DotNavigationBarItem(
               icon:  Icon(Icons.shopping_cart,size: 20.sp,),
-              selectedColor: const Color(0xff73544C),
+              selectedColor: const Color(0xff8e5765),
             ),
 
             DotNavigationBarItem(
               icon:  Icon(Icons.shopping_bag,size: 20.sp,),
-              selectedColor: const Color(0xff73544C),
+              selectedColor: const Color(0xff8e5765),
             ),
 
             DotNavigationBarItem(
               icon:  Icon(Icons.person,size: 20.sp,),
-              selectedColor: const Color(0xff73544C),
+              selectedColor: const Color(0xff8e5765),
             ),
           ],
         ),

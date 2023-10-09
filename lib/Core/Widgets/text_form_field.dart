@@ -1,3 +1,4 @@
+import 'package:art_of_event/Core/Style/colors.dart';
 import 'package:art_of_event/Core/Utills/app_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -56,7 +57,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Center(
         child: Column(
           children: [
-            SizedBox(height: 10.h,
+            SizedBox(height: 7.h,
               child: TextFormField(
                 validator: widget.validators,
                 obscureText: widget.obscureText,
@@ -73,26 +74,26 @@ class _AppTextFieldState extends State<AppTextField> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey.shade200
+                      ? AppColors.primary
                       : Colors.black26,
                   // Set fill color to gray
                   border: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey.shade300
+                        ? AppColors.primary
                         : Colors.black26,),
                     // Set border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey.shade300
+                        ? AppColors.primary
                         : Colors.black26),
                     // Set focused border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey.shade300
+                        ? AppColors.primary
                         : Colors.black26),
                     // Set enabled border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
