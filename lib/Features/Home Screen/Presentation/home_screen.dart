@@ -18,17 +18,18 @@ class _HomeScreenState extends State<HomeScreen> {
   CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         SizedBox(
-          height: 150.h,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 14.sp, horizontal: 14.sp),
-            child: Scaffold(
-              body: Column(
+          height: 110.h,
+          child: Scaffold(
+            backgroundColor: AppColors.primaryLight,
+            body: Padding(
+              padding: EdgeInsets.symmetric(vertical: 14.sp, horizontal: 14.sp),
+
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: AppTextField(
-                          hint: 'Search here',
+                          hint: 'What are you looking for...',
                           keyboardType: TextInputType.text,
                           textColor: AppColors.primary,
                           controller: searchController,
@@ -125,11 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius:
                                 BorderRadiusDirectional.circular(14.sp),
                             color: AppColors.primary),
-                        child: AppSVG(assetName: "heart", height: 3.h),
+                        child: AppSVG(assetName: "sort", height: 3.h),
                       )
                     ],
                   ),
-                  SizedBox(height: 1.h,),
+                  SizedBox(
+                    height: 1.h,
+                  ),
                   Text(
                     'Special offers',
                     style: TextStyle(
@@ -145,17 +148,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         CarouselSlider.builder(
                           itemCount: 3,
                           itemBuilder: (context, index, realIndex) => SizedBox(
-                            width: 73.w,
+                            width: 75.w,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHh6nDtbuBDnVLnOspojm5e5PfyM1bS1FM5w',
+                                  'https://img.freepik.com/free-psd/elegant-wedding-banner-template_23-2148945298.jpg?w=1380&t=st=1696941421~exp=1696942021~hmac=9f5fdfe5a1f06f0283f1f4eec3cb5027ed1302f1b2bffa3d845eaab931c43087',
                                   fit: BoxFit.fill),
                             ),
                           ),
                           carouselController: carouselController,
                           options: CarouselOptions(
-
                             animateToClosest: true,
                             pageSnapping: true,
                             padEnds: true,
@@ -178,14 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 currentIndex = index;
                               });
                             },
-
                           ),
                         ),
                         DotsIndicator(
+                          decorator: DotsDecorator(activeColor: AppColors.selected,color: AppColors.primary),
                           dotsCount: 3,
                           position: currentIndex,
                         )
-
                       ],
                     ),
                   ),
@@ -207,9 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: 8,
                       itemBuilder: (context, index) => Container(
+                        width: 30.w,
                           margin: EdgeInsetsDirectional.only(end: 15.sp),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                            color: AppColors.primary,
                             borderRadius: BorderRadius.circular(
                               16.sp,
                             ),
@@ -217,8 +219,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 15.sp, horizontal: 15.sp),
-                            child: Image.network(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX-62j9_rn7jQl3qcyhzbOokeTQmtxEH1k6A'),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Image.network(
+                                      'https://img.freepik.com/free-vector/golden-wedding-rings-3d-realistic-illustration-engagement_33099-519.jpg?w=826&t=st=1696941503~exp=1696942103~hmac=0782abe040a71a407fa29418e0e0b799cde88c5ab01833b00312aa9b9fe82a57'),
+                                ),
+                                Text(
+                                  'welcome Board efgefg egaefrgadsfgs gads',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp,
+                                      overflow: TextOverflow.ellipsis),
+                                  maxLines: 1,
+                                ),
+                              ],
+                            ),
                           )),
                     ),
                   ),
@@ -228,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       Text(
-                        'Feature Products',
+                        'Trending',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17.sp,
@@ -250,81 +266,154 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: 6,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      itemBuilder: (context, index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              alignment: AlignmentDirectional.topEnd,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 5.sp, horizontal: 15.sp),
-                                  height: 15.h,
-                                  width: 50.sp,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(
-                                      15.sp,
+                  SizedBox(
+                    height: 20.h,
+                    child: ListView.builder(
+                      itemCount: 3,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Padding(
+                        padding:  EdgeInsets.symmetric(vertical: 10.sp,horizontal: 10.sp),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Stack(
+                                alignment: AlignmentDirectional.topEnd,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.sp, horizontal: 20.sp),
+                                    height: 15.h,
+                                    width: 50.sp,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(
+                                        15.sp,
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                            Image.network(
+                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnszDLM2muvyCEMz9E7CjM24n7MW2srp0U1w'),
+                                          ],
                                     ),
                                   ),
-                                  child: Image.network(
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX-62j9_rn7jQl3qcyhzbOokeTQmtxEH1k6A'),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 7.sp,horizontal: 8.sp),
+                                    margin: EdgeInsets.symmetric(vertical: 7.sp,horizontal: 8.sp),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.sp),
+                                    color: AppColors.primaryLight),
+                                    child: AppSVG(
+                                      assetName: 'heart',
+                                      height: 3.h,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Wedding Planner',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.sp,
+                                      overflow: TextOverflow.ellipsis),
+                                  maxLines: 1,
                                 ),
-                                AppSVG(
-                                  assetName: 'heart',
-                                  height: 3.h,
+                                SizedBox(
+                                  height: 0.3.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '200 EGP',
+                                      style: TextStyle(
+                                          color: AppColors.selected,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15.sp,
+                                          overflow: TextOverflow.ellipsis),
+                                      maxLines: 1,
+                                    ),
+                                    SizedBox(width: 11.w,),
+                                    Icon(Icons.star,size: 2.h,color: Colors.yellow,),
+                                    SizedBox(
+                                      width: 0.3.h,
+                                    ),
+                                    Text(
+                                      '5.0',
+                                      style: TextStyle(
+                                          color: AppColors.selected,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15.sp,
+                                          overflow: TextOverflow.ellipsis),
+                                      maxLines: 1,
+                                    ),
+
+                                  ],
                                 ),
                               ],
                             ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Wedding Planner',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.sp,
-                                    overflow: TextOverflow.ellipsis),
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 0.5.h,
-                              ),
-                              Text(
-                                'category',
-                                style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.sp,
-                                    overflow: TextOverflow.ellipsis),
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 0.5.h,
-                              ),
-                              Text(
-                                '200 EGP',
-                                style: TextStyle(
-                                    color: AppColors.selected,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.sp,
-                                    overflow: TextOverflow.ellipsis),
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+                  ),
+                  SizedBox(height: 1.h,),
+                  Text(
+                    'Single offers',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.sp,
+                        overflow: TextOverflow.ellipsis),
+                    maxLines: 1,
+                  ),
+                  Column(
+                    children: [
+                      CarouselSlider.builder(
+                        itemCount: 3,
+                        itemBuilder: (context, index, realIndex) => SizedBox(
+                          width: 75.w,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                                'https://img.freepik.com/free-psd/elegant-wedding-banner-template_23-2148945298.jpg?w=1380&t=st=1696941421~exp=1696942021~hmac=9f5fdfe5a1f06f0283f1f4eec3cb5027ed1302f1b2bffa3d845eaab931c43087',
+                                fit: BoxFit.fill),
+                          ),
+                        ),
+                        carouselController: carouselController,
+                        options: CarouselOptions(
+                          animateToClosest: true,
+                          pageSnapping: true,
+                          padEnds: true,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
+                          height: 18.h,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          },
+                        ),
+                      ),
+                      DotsIndicator(
+                        decorator: DotsDecorator(activeColor: AppColors.selected,color: AppColors.primary),
+                        dotsCount: 3,
+                        position: currentIndex,
+                      )
+                    ],
                   ),
                 ],
               ),

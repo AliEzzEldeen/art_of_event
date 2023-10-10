@@ -59,6 +59,7 @@ class _AppTextFieldState extends State<AppTextField> {
           children: [
             SizedBox(height: 7.h,
               child: TextFormField(
+                onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                 validator: widget.validators,
                 obscureText: widget.obscureText,
                 controller: widget.controller,style: TextStyle(
