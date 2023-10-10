@@ -57,7 +57,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Center(
         child: Column(
           children: [
-            SizedBox(height: 7.h,
+            SizedBox(height: 5.5.h,
               child: TextFormField(
                 onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                 validator: widget.validators,
@@ -75,26 +75,26 @@ class _AppTextFieldState extends State<AppTextField> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Theme.of(context).brightness == Brightness.light
-                      ? AppColors.primary
+                      ? AppColors.primaryLight
                       : Colors.black26,
                   // Set fill color to gray
                   border: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? AppColors.primary
+                        ? AppColors.primaryLight
                         : Colors.black26,),
                     // Set border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? AppColors.primary
+                        ? AppColors.primaryLight
                         : Colors.black26),
                     // Set focused border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
-                        ? AppColors.primary
+                        ? AppColors.primaryLight
                         : Colors.black26),
                     // Set enabled border color to white
                     borderRadius: BorderRadius.all(Radius.circular(17.sp)),
@@ -107,7 +107,7 @@ class _AppTextFieldState extends State<AppTextField> {
                         visible: widget.isImage,
                         child: InkWell(
                           onTap: widget.uploadMedicalId,
-                          child: AppSVG(assetName: "upload"),
+                          child: const AppSVG(assetName: "upload"),
                         ),
                       ),
                       Visibility(

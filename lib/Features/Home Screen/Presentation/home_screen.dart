@@ -1,9 +1,14 @@
+import 'package:art_of_event/Core/Services/Location/location.dart';
 import 'package:art_of_event/Core/Style/colors.dart';
 import 'package:art_of_event/Core/Utills/app_svg.dart';
+import 'package:art_of_event/Core/Utills/safe_print.dart';
 import 'package:art_of_event/Core/Widgets/text_form_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,17 +23,46 @@ class _HomeScreenState extends State<HomeScreen> {
   CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
+  Position? currentPosition;
+  String city = "";
+  String country = "";
+
+  @override
+  void initState() {
+    super.initState();
+    LocationService(onLocationUpdate: _updateLocation).checkPermission(context);
+  }
+
+  void _updateLocation(Position position) async {
+    setState(() {
+      currentPosition = position;
+    });
+
+    try {
+      List<Placemark> placeMarks = await placemarkFromCoordinates(
+        currentPosition!.latitude,
+        currentPosition!.longitude,
+      );
+      if (placeMarks.isNotEmpty) {
+        Placemark placeMark = placeMarks.first;
+        city = placeMark.locality ?? "N/A"; // Update the city variable
+        country = placeMark.country ?? "N/A"; // Get the country
+        setState(() {});
+      }
+    } catch (e) {
+      safePrint("Error fetching location information: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         SizedBox(
-          height: 110.h,
+          height: 150.h,
           child: Scaffold(
-            backgroundColor: AppColors.primaryLight,
             body: Padding(
               padding: EdgeInsets.symmetric(vertical: 14.sp, horizontal: 14.sp),
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               maxLines: 1,
                             ),
                             Text(
-                              'Location not selected yet!',
+                              '$city,$country',
                               style: TextStyle(
                                   color: AppColors.hintText,
                                   fontSize: 15.6.sp,
@@ -121,12 +155,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(
-                            vertical: 2.h, horizontal: 4.w),
+                            vertical: 1.5.h, horizontal: 4.w),
                         decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadiusDirectional.circular(14.sp),
-                            color: AppColors.primary),
-                        child: AppSVG(assetName: "sort", height: 3.h),
+                            color: AppColors.primaryLight),
+                        child: AppSVG(
+                          assetName: "sort",
+                          height: 2.5.h,
+                          color: Colors.black,
+                        ),
                       )
                     ],
                   ),
@@ -183,7 +221,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         DotsIndicator(
-                          decorator: DotsDecorator(activeColor: AppColors.selected,color: AppColors.primary),
+                          decorator: const DotsDecorator(
+                              activeColor: AppColors.selected,
+                              color: AppColors.primary),
                           dotsCount: 3,
                           position: currentIndex,
                         )
@@ -202,36 +242,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 1.h,
                   ),
                   SizedBox(
-                    height: 12.h,
+                    height: 9.h,
                     width: double.infinity,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 8,
+                      itemCount: 5,
                       itemBuilder: (context, index) => Container(
-                        width: 30.w,
-                          margin: EdgeInsetsDirectional.only(end: 15.sp),
+                          width: 20.w,
+                          margin: EdgeInsetsDirectional.only(end: 10.sp),
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(
-                              16.sp,
+                              50.sp,
                             ),
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 15.sp, horizontal: 15.sp),
+                                vertical: 8.sp, horizontal: 8.sp),
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: Image.network(
-                                      'https://img.freepik.com/free-vector/golden-wedding-rings-3d-realistic-illustration-engagement_33099-519.jpg?w=826&t=st=1696941503~exp=1696942103~hmac=0782abe040a71a407fa29418e0e0b799cde88c5ab01833b00312aa9b9fe82a57'),
-                                ),
-                                Text(
-                                  'welcome Board efgefg egaefrgadsfgs gads',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.sp,
-                                      overflow: TextOverflow.ellipsis),
-                                  maxLines: 1,
+                                  child:
+                                      AppSVG(assetName: 'wedding', height: 4.h),
                                 ),
                               ],
                             ),
@@ -261,97 +293,100 @@ class _HomeScreenState extends State<HomeScreen> {
                         maxLines: 1,
                       ),
                       Icon(
-                        Icons.arrow_right,
-                        size: 3.h,
+                        Icons.arrow_forward_ios,
+                        size: 1.5.h,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20.h,
-                    child: ListView.builder(
-                      itemCount: 3,
-                      scrollDirection: Axis.horizontal,
+                  Expanded(
+                    child: GridView.builder(
+                      shrinkWrap: false,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 5,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
                       itemBuilder: (context, index) => Padding(
-                        padding:  EdgeInsets.symmetric(vertical: 10.sp,horizontal: 10.sp),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.sp, horizontal: 10.sp),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Stack(
-                                alignment: AlignmentDirectional.topEnd,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.sp, horizontal: 20.sp),
-                                    height: 15.h,
-                                    width: 50.sp,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary,
-                                      borderRadius: BorderRadius.circular(
-                                        15.sp,
-                                      ),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                            Image.network(
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnszDLM2muvyCEMz9E7CjM24n7MW2srp0U1w'),
-                                          ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(vertical: 7.sp,horizontal: 8.sp),
-                                    margin: EdgeInsets.symmetric(vertical: 7.sp,horizontal: 8.sp),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.sp),
-                                    color: AppColors.primaryLight),
-                                    child: AppSVG(
-                                      assetName: 'heart',
-                                      height: 3.h,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            ClipRRect(
+                              borderRadius: BorderRadiusDirectional.only(
+                                  topEnd: Radius.circular(18.sp),
+                                  topStart: Radius.circular(18.sp)),
+                              child: Image.network(
+                                  'https://hautefetes.com/wp-content/uploads/2020/10/What-does-a-full-service-wedding-planner-do_hautefetes.jpg'),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Wedding Planner',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.sp,
-                                      overflow: TextOverflow.ellipsis),
-                                  maxLines: 1,
-                                ),
                                 SizedBox(
-                                  height: 0.3.h,
+                                  height: 0.4.h,
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      '200 EGP',
-                                      style: TextStyle(
-                                          color: AppColors.selected,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.sp,
-                                          overflow: TextOverflow.ellipsis),
-                                      maxLines: 1,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Text(
+                                        'Wedding Planner',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.sp,
+                                            overflow: TextOverflow.ellipsis),
+                                        maxLines: 1,
+                                      ),
                                     ),
-                                    SizedBox(width: 11.w,),
-                                    Icon(Icons.star,size: 2.h,color: Colors.yellow,),
+                                    const Spacer(),
+                                    Icon(CupertinoIcons.heart, size: 19.sp),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 0.1.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        'Guest Book',
+                                        style: TextStyle(
+                                            color: AppColors.secondColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.sp,
+                                            overflow: TextOverflow.ellipsis),
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Icon(
+                                      Icons.star,
+                                      size: 2.h,
+                                      color: Colors.yellowAccent,
+                                    ),
                                     SizedBox(
                                       width: 0.3.h,
                                     ),
                                     Text(
                                       '5.0',
                                       style: TextStyle(
-                                          color: AppColors.selected,
+                                          color: AppColors.secondColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15.sp,
                                           overflow: TextOverflow.ellipsis),
                                       maxLines: 1,
                                     ),
-
                                   ],
+                                ),
+                                Text(
+                                  '200 EGP',
+                                  style: TextStyle(
+                                      color: AppColors.secondColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.sp,
+                                      overflow: TextOverflow.ellipsis),
+                                  maxLines: 1,
                                 ),
                               ],
                             ),
@@ -360,7 +395,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 1.h,),
+                  SizedBox(
+                    height: 1.h,
+                  ),
                   Text(
                     'Single offers',
                     style: TextStyle(
@@ -395,7 +432,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           autoPlay: true,
                           autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
+                              const Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           enlargeFactor: 0.3,
@@ -409,10 +446,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       DotsIndicator(
-                        decorator: DotsDecorator(activeColor: AppColors.selected,color: AppColors.primary),
+                        decorator: const DotsDecorator(
+                            activeColor: AppColors.selected,
+                            color: AppColors.primary),
                         dotsCount: 3,
                         position: currentIndex,
-                      )
+                      ),
                     ],
                   ),
                 ],
